@@ -1,5 +1,6 @@
 src/oucgo_client/node_modules
 src/oucgo_service/.env
+src/oucgo_service/jwc_client/class_table_params.json
 src/oucgo_service/db.sqlite3
 src/oucgo_service/oucgo_service/__pycache__
 src/oucgo_service/api/__pycache__

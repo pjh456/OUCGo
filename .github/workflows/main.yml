@@ -34,7 +34,14 @@ jobs:
       - name: Check pending migrations
         run: python src/oucgo_service/manage.py makemigrations --check --dry-run
 
-      - name: Run Django tests
-        run: |
-          export PYTHONPATH=$PYTHONPATH:src/oucgo_service
-          python src/oucgo_service/manage.py test --verbosity 2
+      - name: Test jwc_client
+        working-directory: src/oucgo_service
+        run: python manage.py test jwc_client --verbosity 2
+
+      - name: Test jwc_parser
+        working-directory: src/oucgo_service
+        run: python manage.py test jwc_parser --verbosity 2
+
+      - name: Test api
+        working-directory: src/oucgo_service
+        run: python manage.py test api --verbosity 2

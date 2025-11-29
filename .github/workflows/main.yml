@@ -35,4 +35,6 @@ jobs:
         run: python src/oucgo_service/manage.py makemigrations --check --dry-run
 
       - name: Run Django tests
-        run: python src/oucgo_service/manage.py test --verbosity 2
+        run: |
+          export PYTHONPATH=$PYTHONPATH:src/oucgo_service
+          python src/oucgo_service/manage.py test --verbosity 2

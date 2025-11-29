@@ -2,3 +2,10 @@ src/oucgo_client/node_modules
 src/oucgo_service/.env
 src/oucgo_service/db.sqlite3
 src/oucgo_service/oucgo_service/__pycache__
+src/oucgo_service/api/__pycache__
+src/oucgo_service/jwc_client/__pycache__
+src/oucgo_service/jwc_parser/__pycache__
+src/oucgo_service/oucgo_service/migrations/__pycache__
+src/oucgo_service/api/migrations/__pycache__
+src/oucgo_service/jwc_client/migrations/__pycache__
+src/oucgo_service/jwc_parser/migrations/__pycache__

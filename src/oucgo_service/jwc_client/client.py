@@ -1,19 +1,29 @@
+# jwc_client/client.py
 import requests
+from django.conf import settings
 
-class JWCClient:
+class BaseJWCClient:
     """
-    教务系统客户端：封装登录和抓取 HTML
+    低级封装：只负责登录、抓取 HTML
     """
-    def __init__(self, username:str, password: str):
-        self.username:str = username
-        self.password:str = password
-        self.session:requests.Session = requests.Session()
-        self.logged_in:bool = False
-        
-    def login(self) -> bool:
-        """
-        登录教务系统，保存 session
-        """
-        
-        
-        return True
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        self.session = requests.Session()
+        self.logged_in = False
+
+    def login(self):
+        resp = self.session.post(
+            settings.JWC_LOGIN_URL,
+            data={"username": self.username, "password": self.password},
+            params={"noAutoRedirect": 1, "service": settings.JWC_SERVICE_URL}
+        )
+        if resp.status_code == 200 and "登录成功" in resp.text:
+            self.logged_in = True
+        else:
+            raise Exception("登录失败")
+
+    def fetch(self, url):
+        if not self.logged_in:
+            self.login()
+        return self.session.get(url).text

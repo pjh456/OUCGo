@@ -1,0 +1,4 @@
+src/oucgo_client/node_modules
+src/oucgo_service/.env
+src/oucgo_service/db.sqlite3
+src/oucgo_service/oucgo_service/__pycache__

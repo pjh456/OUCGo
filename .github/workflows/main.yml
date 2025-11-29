@@ -1,4 +1,4 @@
-name: OUCGO Backend CI
+name: OUCGO CI Pipeline
 
 on:
   push:
@@ -20,8 +20,11 @@ jobs:
       - name: Check Python version
         run: python --version
 
-      - name: Install Python dependencies
+      - name: Install Backend dependencies
         run: pip install -r src/oucgo_service/requirements.txt
 
       - name: Django check
         run: python src/oucgo_service/manage.py check
+
+      - name: Run Django tests
+        run: python src/oucgo_service/manage.py test --verbosity 2

@@ -26,5 +26,8 @@ jobs:
       - name: Django check
         run: python src/oucgo_service/manage.py check
 
+      - name: Check pending migrations
+        run: python src/oucgo_service/manage.py makemigrations --check --dry-run
+
       - name: Run Django tests
         run: python src/oucgo_service/manage.py test --verbosity 2

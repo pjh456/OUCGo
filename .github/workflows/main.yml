@@ -22,3 +22,6 @@ jobs:
 
       - name: Install Python dependencies
         run: pip install -r src/oucgo_service/requirements.txt
+
+      - name: Django check
+        run: python src/oucgo_service/manage.py check

@@ -9,9 +9,7 @@ class JWCClientTest(TestCase):
         client = BaseJWCClient(settings.JWC_USERNAME, settings.JWC_PASSWORD)
         try:
             success = client.login()
-            if success:
-                print("登录成功")
-            else:
-                self.fail(f"登录失败")
+            if not success:
+                self.fail(f"登录失败: {client.get_last_error()}")
         except Exception as e:
             self.fail(f"登录失败: {e}")

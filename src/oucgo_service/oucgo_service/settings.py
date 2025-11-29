@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("DJANGO_SECRET_KEY")
 JWC_LOGIN_URL = env("JWC_LOGIN_URL")
 JWC_USERNAME = env("JWC_USERNAME")
 JWC_PASSWORD = env("JWC_PASSWORD")

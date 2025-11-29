@@ -8,6 +8,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      JWC_LOGIN_URL: ${{ secrets.JWC_LOGIN_URL }}
+      JWC_USERNAME: ${{ secrets.JWC_USERNAME }}
+      JWC_PASSWORD: ${{ secrets.JWC_PASSWORD }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3

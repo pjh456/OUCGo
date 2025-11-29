@@ -1,4 +1,4 @@
-name: Django Tests
+name: OUCGO Backend CI
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Setup Python
@@ -19,3 +19,6 @@ jobs:
 
       - name: Check Python version
         run: python --version
+
+      - name: Install Python dependencies
+        run: pip install -r src/oucgo_service/requirements.txt

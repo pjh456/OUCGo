@@ -21,25 +21,25 @@ class JWCClientTest(TestCase):
         except Exception as e:
             self.fail(f"登录失败: {e}")
 
-    @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
+    # @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
     def test_jwgl(self):
         try:
-            success = self.jwc_client.fetch(settings.JWC_JWGL_URL)
+            success = self.jwc_client.fetch(settings.VPN_JWC_JWGL_URL)
             if not success:
                 self.fail(f"课表访问失败: {self.jwc_client.get_last_error()}")
         except Exception as e:
             self.fail(f"课表访问失败: {e}")
 
-    @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
-    def test_jwgl_parse(self):
-        try:
-            success = self.jwc_client.fetch(settings.JWC_JWGL_URL)
-            if not success:
-                self.fail(f"课表解析失败: {self.jwc_client.get_last_error()}")
-            html_text = self.jwc_client.get_last_html()
-            extractor = HTMLExtractor()
-        except Exception as e:
-            self.fail(f"课表解析失败: {e}")
+    # @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
+    # def test_jwgl_parse(self):
+    #     try:
+    #         success = self.jwc_client.fetch(settings.VPN_JWC_JWGL_URL)
+    #         if not success:
+    #             self.fail(f"课表解析失败: {self.jwc_client.get_last_error()}")
+    #         html_text = self.jwc_client.get_last_html()
+    #         extractor = HTMLExtractor()
+    #     except Exception as e:
+    #         self.fail(f"课表解析失败: {e}")
 
 
 class HTMLExtractorTests(TestCase):

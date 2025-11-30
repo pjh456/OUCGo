@@ -14,11 +14,16 @@ class JWCService:
             student_profile.jwc_username, student_profile.jwc_password
         )
 
-    def get_schedule(self):
-        html = self.client.fetch(settings.JWC_SCHEDULE_URL)
-        # 可选：计算 hash 与 last_html_hash 对比
-        return html
+    def get_jwgl(self) -> str | None:
+        success = self.client.fetch(settings.JWC_JWGL_URL)
+        if success:
+            return self.client.get_last_html()
+        else:
+            return None
 
-    def get_grades(self):
-        html = self.client.fetch(settings.JWC_GRADES_URL)
-        return html
+    def get_schedule_table(self) -> str | None:
+        success = self.client.fetch(settings.JWC_TABLE_URL)
+        if success:
+            return self.client.get_last_html()
+        else:
+            return None

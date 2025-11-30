@@ -13,3 +13,12 @@ class JWCClientTest(TestCase):
                 self.fail(f"登录失败: {client.get_last_error()}")
         except Exception as e:
             self.fail(f"登录失败: {e}")
+
+    def test_jwgl(self):
+        client = BaseJWCClient(settings.JWC_USERNAME, settings.JWC_PASSWORD)
+        try:
+            success = client.fetch(settings.JWC_JWGL_URL)
+            if not success:
+                self.fail(f"失败: {client.get_last_error()}")
+        except Exception as e:
+            self.fail(f"登录失败: {e}")

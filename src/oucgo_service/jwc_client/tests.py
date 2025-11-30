@@ -2,6 +2,7 @@
 from django.test import TestCase
 from .client import BaseJWCClient
 from django.conf import settings
+import unittest
 
 
 class JWCClientTest(TestCase):
@@ -14,6 +15,7 @@ class JWCClientTest(TestCase):
         except Exception as e:
             self.fail(f"登录失败: {e}")
 
+    @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
     def test_jwgl(self):
         client = BaseJWCClient(settings.JWC_USERNAME, settings.JWC_PASSWORD)
         try:

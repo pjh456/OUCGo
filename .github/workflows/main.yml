@@ -14,6 +14,7 @@ jobs:
       JWC_JWGL_URL: ${{ secrets.JWC_JWGL_URL }}
       JWC_USERNAME: ${{ secrets.JWC_USERNAME }}
       JWC_PASSWORD: ${{ secrets.JWC_PASSWORD }}
+      VPN_JWC_JWGL_URL: ${{ secrets.VPN_JWC_JWGL_URL }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3

@@ -10,24 +10,36 @@ from .html_extractor import HTMLExtractor
 
 
 class JWCClientTest(TestCase):
+    def setUp(self):
+        self.jwc_client = BaseJWCClient(settings.JWC_USERNAME, settings.JWC_PASSWORD)
+
     def test_login(self):
-        client = BaseJWCClient(settings.JWC_USERNAME, settings.JWC_PASSWORD)
         try:
-            success = client.login()
+            success = self.jwc_client.login()
             if not success:
-                self.fail(f"登录失败: {client.get_last_error()}")
+                self.fail(f"登录失败: {self.jwc_client.get_last_error()}")
         except Exception as e:
             self.fail(f"登录失败: {e}")
 
     @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
     def test_jwgl(self):
-        client = BaseJWCClient(settings.JWC_USERNAME, settings.JWC_PASSWORD)
         try:
-            success = client.fetch(settings.JWC_JWGL_URL)
+            success = self.jwc_client.fetch(settings.JWC_JWGL_URL)
             if not success:
-                self.fail(f"失败: {client.get_last_error()}")
+                self.fail(f"课表访问失败: {self.jwc_client.get_last_error()}")
         except Exception as e:
-            self.fail(f"登录失败: {e}")
+            self.fail(f"课表访问失败: {e}")
+
+    @unittest.skipIf(settings.SKIP_CI_TEST == "true", "CI 无法连接校园网")
+    def test_jwgl_parse(self):
+        try:
+            success = self.jwc_client.fetch(settings.JWC_JWGL_URL)
+            if not success:
+                self.fail(f"课表解析失败: {self.jwc_client.get_last_error()}")
+            html_text = self.jwc_client.get_last_html()
+            extractor = HTMLExtractor()
+        except Exception as e:
+            self.fail(f"课表解析失败: {e}")
 
 
 class HTMLExtractorTests(TestCase):
@@ -66,6 +78,8 @@ class HTMLExtractorTests(TestCase):
             k: RuleNode.from_config(v) for k, v in self.config_dict.items()
         }
 
+        self.extractor = HTMLExtractor()
+
     def test_rule_node_structure(self) -> None:
         weeks_node = self.config_tree["weeks"]
         self.assertIn("name", weeks_node.children)
@@ -82,8 +96,14 @@ class HTMLExtractorTests(TestCase):
             self.assertGreater(len(elements), 0)
 
     def test_extractor(self) -> None:
-        extractor = HTMLExtractor()
-        result = extractor.extract_from_html(self.html_text, self.config_tree)
+        result = self.extractor.extract_from_html(self.html_text, self.config_tree)
         self.assertEqual(len(result["weeks"]), 3)
         self.assertEqual(len(result["show_online_courses"]), 1)
         self.assertEqual(result["show_online_courses"][0], "false")
+
+    @unittest.skipIf(settings.SKIP_CI_TEST == "true", "配置文件已隐藏")
+    def test_config_load(self) -> None:
+        try:
+            self.extractor.load_config(settings.CLASS_TABLE_PARAMS_PATH)
+        except Exception as e:
+            self.fail(f"配置失败: {e}")

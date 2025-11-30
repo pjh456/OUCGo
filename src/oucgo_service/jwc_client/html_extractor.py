@@ -2,6 +2,7 @@ from typing_extensions import Self
 from lxml import html
 from .rule_node import RuleNode
 from typing import Optional, Dict, Any
+import json
 
 
 class HTMLExtractor:
@@ -13,6 +14,10 @@ class HTMLExtractor:
             cls._instance = super().__new__(cls)
             cls.config_tree = {}
         return cls._instance
+
+    def load_config(self, config_path: str) -> None:
+        with open(config_path, "r") as f:
+            self.config_tree = json.load(f)
 
     def extract_from_html(
         self, root_html: str, config_tree: Optional[Dict[str, "RuleNode"]]
